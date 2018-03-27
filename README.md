@@ -8,7 +8,7 @@ read aloud gives you one less thing to worry about.
 ### Mod Settings
 - Enable/disable speech
 - Speech speed
-- Voice selection for multiple languages (not working in chrome/edge)
+- Voice selection for multiple languages
 
 ## Status
 The Web Speech API that runs this extension is still pretty new so
