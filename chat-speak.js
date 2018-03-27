@@ -6,18 +6,32 @@
     speechVoice: ''
   };
 
+  const isChrome = /chrome/i.test(navigator.userAgent);
+  const isEdge = /edge/i.test(navigator.userAgent);
+  const isAsyncBrowser = (isChrome || isEdge);
 
-  function loadVoices() {
-    // invoking getVoices loads speech asynchronously in chrome and edge
-    const voices = speechSynthesis.getVoices();
+  function getVoices() {
+    let voices = speechSynthesis.getVoices();
     return voices.reduce((acc, voice) => {
       acc[voice.name] = voice.name;
       return acc;
     }, {});
   }
 
-  // for chrome and edge support
-  window.speechSynthesis.onvoiceschanged = loadVoices;
+  function loadVoices() {
+    return new Promise((resolve) => {
+      if (isAsyncBrowser) {
+        // chrome/edge have to load asynchronously with this event handler
+        speechSynthesis.onvoiceschanged = function() {
+          const voiceList = getVoices();
+          resolve(voiceList);
+        };
+      } else {
+        const voiceList = getVoices();
+        resolve(voiceList);
+      }
+    });
+  }
 
   function settingsApplied(values) {
     // retrieve the speechSynthesis voice object matching the selected voice
@@ -42,9 +56,9 @@
                              step: 1
                            });
 
-    // FIXME: voices in chrome don't get loaded properly
-    const voiceList = loadVoices();
-    section.addValuesField('speechVoice', 'Voice language (Blank is English or unsupported by your browser)', voiceList);
+    loadVoices().then(voiceList => {
+      section.addValuesField('speechVoice', 'Voice language (Blank is English or unsupported by your browser)', voiceList);
+    });
 
     return sp;
   }
