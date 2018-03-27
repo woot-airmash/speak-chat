@@ -16,7 +16,6 @@ sometimes browser or systems break. Here's the gist:
 
 - Chromium needs `--enable-speech-dispatcher` when starting
 - Safari and IE are untested but may work
-- Chrome and Edge don't support multiple voices yet
 
 If you're using Chromium on linux you may need to install a TTS
 engine. If you don't already have espeak do:
