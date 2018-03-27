@@ -24,5 +24,4 @@ engine. If you don't already have espeak do:
 apt-get install espeak
 ```
 
-All the important things are working but a couple bugs still exist. Pull
-requests and new issues are welcome! 
+Pull requests and new issues are welcome! 
