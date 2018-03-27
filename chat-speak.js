@@ -108,7 +108,8 @@
 
   // run when new chat messages appear, reads their text content
   function parseChatMessage(chatElementsArray) {
-    const parentEl = chatElementsArray.slice(-1);
+    const chatLength = chatElementsArray.length - 1;
+    const parentEl = chatElementsArray[chatLength];
     const childNodes = parentEl.addedNodes[0].children;
     const chatCSS = childNodes[0].className;
 
