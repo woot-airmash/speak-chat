@@ -5,6 +5,8 @@ StarMash extension to speak chat messages with text to speech.
 Reading the chat while getting shot at can be difficult. Having the chat
 read aloud gives you one less thing to worry about. 
 
+Install URL: `https://woot-airmash.github.io/speak-chat/speak-chat.js`
+
 ### Mod Settings
 - Enable/disable speech
 - Speech speed
