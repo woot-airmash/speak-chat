@@ -62,22 +62,34 @@
     speechSynthesis.speak(msg);
   }
 
+  function checkSender (playerNick, message) {
+    if (playerNick === game.myName) {
+      // don't speak your own message
+      return '';
+    } else {
+      return message;
+    }
+  }
+
   function generalMessge(nodes) {
     const playerNick = nodes[0].children[1].innerText;
     const chatText =  nodes[1].innerText;
-    return playerNick + ' says ' + chatText;
+    const message = 'in team chat ' + playerNick + ' says ' + chatText;
+    return checkSender(playerNick, message);
   }
 
   function teamMessage(nodes) {
     const playerNick = nodes[1].children[0].innerText;
     const chatText =  nodes[2].innerText;
-    return 'in team chat ' + playerNick + ' says ' + chatText;
+    const message= 'in team chat ' + playerNick + ' says ' + chatText;
+    return checkSender(playerNick, message);
   }
 
   function whisperMessage(nodes) {
     const playerNick = nodes[1].children[0].innerText;
     const chatText =  nodes[2].innerText;
-    return 'new whisper ' + playerNick + ' says ' + chatText;
+    const message = 'new whisper ' + playerNick + ' says ' + chatText;
+    return checkSender(playerNick, message);
   }
 
   // run when new chat messages appear, reads their text content
