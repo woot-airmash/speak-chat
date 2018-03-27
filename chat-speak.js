@@ -129,11 +129,13 @@
     }
   }
 
+  let OBSERVER;
+
   function startObserver() {
     const chatbox = $('#chatlines')[0];
     const config = { childList: true };
-    const observer = new MutationObserver(mutationCallback);
-    observer.observe(chatbox, config);
+    OBSERVER = new MutationObserver(mutationCallback);
+    OBSERVER.observe(chatbox, config);
   }
 
   // set the mutation observer to watch chat messages
@@ -142,6 +144,13 @@
     setTimeout(function() {
       startObserver();
     }, 1000);
+  });
+
+  SWAM.on('gameWipe', function() {
+    // clean up observer when disconnecting
+    if (OBSERVER != null) {
+      OBSERVER.disconnect();
+    }
   });
 
   SWAM.registerExtension({
