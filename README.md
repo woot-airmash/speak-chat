@@ -12,7 +12,7 @@ read aloud gives you one less thing to worry about.
 
 ## Status
 The Web Speech API that runs this extension is still pretty new so
-sometimes browser or systems break. Here's the gist: 
+sometimes browsers or systems break. Here's the gist: 
 
 - Chromium needs `--enable-speech-dispatcher` when starting
 - Safari and IE are untested but may work
