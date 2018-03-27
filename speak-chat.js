@@ -85,74 +85,32 @@
     }
   }
 
-  function generalMessge(nodes) {
-    const playerNick = nodes[0].children[1].innerText;
-    const chatText =  nodes[1].innerText;
-    const message = playerNick + ' says ' + chatText;
-    return checkSender(playerNick, message);
-  }
-
-  function teamMessage(nodes) {
-    const playerNick = nodes[1].children[0].innerText;
-    const chatText =  nodes[2].innerText;
-    const message= 'in team chat ' + playerNick + ' says ' + chatText;
-    return checkSender(playerNick, message);
-  }
-
-  function whisperMessage(nodes) {
-    const playerNick = nodes[1].children[0].innerText;
-    const chatText =  nodes[2].innerText;
-    const message = 'new whisper ' + playerNick + ' says ' + chatText;
-    return checkSender(playerNick, message);
-  }
-
-  // run when new chat messages appear, reads their text content
-  function parseChatMessage(chatElementsArray) {
-    const chatLength = chatElementsArray.length - 1;
-    const parentEl = chatElementsArray[chatLength];
-    const childNodes = parentEl.addedNodes[0].children;
-    const chatCSS = childNodes[0].className;
-
+  function parseChatMessage(player, chatText, chatType) {
+    const playerNick = player.name;
     let message;
 
-    if (/playersel/.test(chatCSS)) {
-      message = generalMessge(childNodes);
-    } else if (/team/.test(chatCSS)) {
-      message = teamMessage(childNodes);
-    } else if (/whisper/.test(chatCSS)) {
-      message = whisperMessage(childNodes);
-    } else {
+    switch(chatType) {
+      // 0 gen, 2 whisper, 3 team
+    case 0:
+      message = playerNick + ' says ' + chatText;
+      break;
+    case 3:
+      message = 'in team chat ' + playerNick + ' says ' + chatText;
+      break;
+    case 2:
+      message = 'new whisper ' + playerNick + ' says ' + chatText;
+      break;
+    default:
       return;
     }
 
-    if (defaultSettings.isSpeechEnabled === true) {
+    if (defaultSettings.isSpeechEnabled === true &&
+        checkSender(playerNick, message)) {
       speak(message);
     }
   }
 
-  let OBSERVER;
-
-  function startObserver() {
-    const chatbox = $('#chatlines')[0];
-    const config = { childList: true };
-    OBSERVER = new MutationObserver(parseChatMessage);
-    OBSERVER.observe(chatbox, config);
-  }
-
-  // set the mutation observer to watch chat messages
-  SWAM.on('gamePrep', function() {
-    // give time for DOM to render
-    setTimeout(function() {
-      startObserver();
-    }, 1000);
-  });
-
-  SWAM.on('gameWipe', function() {
-    // clean up observer when disconnecting
-    if (OBSERVER != null) {
-      OBSERVER.disconnect();
-    }
-  });
+  SWAM.on('chatLineAdded', parseChatMessage);
 
   SWAM.registerExtension({
     name: "chat-speak",
