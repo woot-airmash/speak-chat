@@ -107,19 +107,19 @@
   }
 
   // run when new chat messages appear, reads their text content
-  function mutationCallback(mutationList) {
-    const parentEl = mutationList[1] || mutationList[0];
-    const nodes = parentEl.addedNodes[0].children;
-    const chatCSS = nodes[0].className;
+  function parseChatMessage(chatElementsArray) {
+    const parentEl = chatElementsArray.slice(-1);
+    const childNodes = parentEl.addedNodes[0].children;
+    const chatCSS = childNodes[0].className;
 
     let message;
 
     if (/playersel/.test(chatCSS)) {
-      message = generalMessge(nodes);
+      message = generalMessge(childNodes);
     } else if (/team/.test(chatCSS)) {
-      message = teamMessage(nodes);
+      message = teamMessage(childNodes);
     } else if (/whisper/.test(chatCSS)) {
-      message = whisperMessage(nodes);
+      message = whisperMessage(childNodes);
     } else {
       return;
     }
@@ -134,7 +134,7 @@
   function startObserver() {
     const chatbox = $('#chatlines')[0];
     const config = { childList: true };
-    OBSERVER = new MutationObserver(mutationCallback);
+    OBSERVER = new MutationObserver(parseChatMessage);
     OBSERVER.observe(chatbox, config);
   }
 
