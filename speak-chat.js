@@ -88,7 +88,7 @@
   function generalMessge(nodes) {
     const playerNick = nodes[0].children[1].innerText;
     const chatText =  nodes[1].innerText;
-    const message = 'in team chat ' + playerNick + ' says ' + chatText;
+    const message = playerNick + ' says ' + chatText;
     return checkSender(playerNick, message);
   }
 
