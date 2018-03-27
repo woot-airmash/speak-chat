@@ -110,7 +110,9 @@
       return;
     }
 
-    speak(message);
+    if (defaultSettings.isSpeechEnabled === true) {
+      speak(message);
+    }
   }
 
   function startObserver() {
@@ -122,12 +124,10 @@
 
   // set the mutation observer to watch chat messages
   SWAM.on('gamePrep', function() {
-    if (defaultSettings.isSpeechEnabled === true) {
-      // give time for DOM to render
-      setTimeout(function() {
-        startObserver();
-      }, 1000);
-    }
+    // give time for DOM to render
+    setTimeout(function() {
+      startObserver();
+    }, 1000);
   });
 
   SWAM.registerExtension({
