@@ -110,7 +110,7 @@
     }
 
     if (defaultSettings.isSpeechEnabled === true &&
-        // checkSender(playerNick, message) &&
+        checkSender(playerNick, message) &&
         isSoundEnabled === true) {
       speak(message);
     }
