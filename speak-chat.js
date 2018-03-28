@@ -75,7 +75,7 @@
     }
 
     // NOTE: timeout important because it avoids slowing animations, don't delete
-    // queues up the speech call but allows upcoming animations to run first
+    // queues up the .speak call but allows upcoming animations to run first
     setTimeout(function() {
       speechSynthesis.speak(msg);
     }, 1);
