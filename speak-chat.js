@@ -118,7 +118,7 @@
 
   SWAM.on('chatLineAdded', parseChatMessage);
 
-  let OBSERVER;
+  let SOUND_OBSERVER;
 
   function updateSoundEnabled(mutationList) {
     const soundSetting = mutationList[0].target.className;
@@ -133,8 +133,8 @@
   function initSoundObserver() {
     const soundEl = $('#settings-sound')[0];
     const config = { attributes: true };
-    OBSERVER = new MutationObserver(updateSoundEnabled);
-    OBSERVER.observe(soundEl, config);
+    SOUND_OBSERVER = new MutationObserver(updateSoundEnabled);
+    SOUND_OBSERVER.observe(soundEl, config);
   }
 
   // use a mutation observer to watch sound on/off setting
@@ -148,8 +148,8 @@
 
   SWAM.on('gameWipe', function() {
     // clean up observer when disconnecting
-    if (OBSERVER != null) {
-      OBSERVER.disconnect();
+    if (SOUND_OBSERVER != null) {
+      SOUND_OBSERVER.disconnect();
     }
   });
 
