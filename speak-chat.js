@@ -94,7 +94,7 @@
     let message;
 
     switch(chatType) {
-      // 0 gen, 2 whisper, 3 team
+      // chatTypes: 0 general, 2 whisper, 3 team
     case 0:
       message = playerNick + ' says ' + chatText;
       break;
