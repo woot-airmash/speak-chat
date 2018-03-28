@@ -125,11 +125,6 @@
     isSoundEnabled = /on/.test(soundSetting);
   }
 
-  function initSoundEnabled() {
-    const soundSetting = $('#settings-sound')[0].className;
-    isSoundEnabled = /on/.test(soundSetting);
-  }
-
   function initSoundObserver() {
     const soundEl = $('#settings-sound')[0];
     const config = { attributes: true };
@@ -141,8 +136,8 @@
   SWAM.on('gamePrep', function() {
     // give time for DOM to render
     setTimeout(function() {
+      isSoundEnabled = window.config.settings.sound;
       initSoundObserver();
-      initSoundEnabled();
     }, 1000);
   });
 
