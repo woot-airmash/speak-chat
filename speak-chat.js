@@ -73,7 +73,11 @@
       msg.voice = defaultSettings.speechVoice;
     }
 
-    speechSynthesis.speak(msg);
+    // NOTE: timeout important because it avoids slowing animations, don't delete
+    // queues up the speech call but allows upcoming animations to run first
+    setTimeout(function() {
+      speechSynthesis.speak(msg);
+    }, 1);
   }
 
   function checkSender (playerNick, message) {
