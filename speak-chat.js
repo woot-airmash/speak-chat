@@ -1,5 +1,6 @@
 !function(){
 
+  let isSoundEnabled;
   let defaultSettings = {
     isSpeechEnabled: true,
     speechRate: 5,
@@ -109,12 +110,48 @@
     }
 
     if (defaultSettings.isSpeechEnabled === true &&
-        checkSender(playerNick, message)) {
+        // checkSender(playerNick, message) &&
+        isSoundEnabled === true) {
       speak(message);
     }
   }
 
   SWAM.on('chatLineAdded', parseChatMessage);
+
+  let OBSERVER;
+
+  function updateSoundEnabled(mutationList) {
+    const soundSetting = mutationList[0].target.className;
+    isSoundEnabled = /on/.test(soundSetting);
+  }
+
+  function initSoundEnabled() {
+    const soundSetting = $('#settings-sound')[0].className;
+    isSoundEnabled = /on/.test(soundSetting);
+  }
+
+  function initSoundObserver() {
+    const soundEl = $('#settings-sound')[0];
+    const config = { attributes: true };
+    OBSERVER = new MutationObserver(updateSoundEnabled);
+    OBSERVER.observe(soundEl, config);
+  }
+
+  // use a mutation observer to watch sound on/off setting
+  SWAM.on('gamePrep', function() {
+    // give time for DOM to render
+    setTimeout(function() {
+      initSoundObserver();
+      initSoundEnabled();
+    }, 1000);
+  });
+
+  SWAM.on('gameWipe', function() {
+    // clean up observer when disconnecting
+    if (OBSERVER != null) {
+      OBSERVER.disconnect();
+    }
+  });
 
   SWAM.registerExtension({
     name: "chat-speak",
