@@ -1,6 +1,5 @@
 !function(){
 
-  let isSoundEnabled = window.config.settings.sound;
   let defaultSettings = {
     isSpeechEnabled: true,
     speechRate: 5,
@@ -109,6 +108,8 @@
       return;
     }
 
+    // check if the game's sound is enabled before speaking
+    const isSoundEnabled = window.config.settings.sound;
     if (defaultSettings.isSpeechEnabled === true &&
         checkSender(playerNick, message) &&
         isSoundEnabled === true) {
@@ -117,36 +118,6 @@
   }
 
   SWAM.on('chatLineAdded', parseChatMessage);
-
-  let SOUND_OBSERVER;
-
-  function updateSoundEnabled(mutationList) {
-    const soundSetting = mutationList[0].target.className;
-    isSoundEnabled = /on/.test(soundSetting);
-  }
-
-  function initSoundObserver() {
-    const soundEl = $('#settings-sound')[0];
-    const config = { attributes: true };
-    SOUND_OBSERVER = new MutationObserver(updateSoundEnabled);
-    SOUND_OBSERVER.observe(soundEl, config);
-  }
-
-  // use a mutation observer to watch sound on/off setting
-  SWAM.on('gamePrep', function() {
-    // give time for DOM to render
-    setTimeout(function() {
-      isSoundEnabled = window.config.settings.sound;
-      initSoundObserver();
-    }, 1000);
-  });
-
-  SWAM.on('gameWipe', function() {
-    // clean up observer when disconnecting
-    if (SOUND_OBSERVER != null) {
-      SOUND_OBSERVER.disconnect();
-    }
-  });
 
   SWAM.registerExtension({
     name: "chat-speak",
