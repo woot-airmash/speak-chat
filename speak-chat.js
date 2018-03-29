@@ -124,7 +124,7 @@
     id: "chat-speak",
     description: "Speaks chat messsages using text to speech",
     author: "woot",
-    version: "0.1.0",
+    version: "0.1.4",
     settingsProvider: createSettingsProvider()
   });
 }();

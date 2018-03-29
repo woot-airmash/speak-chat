@@ -1,6 +1,6 @@
 {
   "name": "speak-chat",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "StarMash/Airmash extension for speaking chat messages with tts",
   "main": "speak-chat.js",
   "repository": "https://github.com/woot-airmash/speak-chat.git",
