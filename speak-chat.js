@@ -1,6 +1,6 @@
 !function(){
 
-  let isSoundEnabled;
+  let isSoundEnabled = window.config.settings.sound;
   let defaultSettings = {
     isSpeechEnabled: true,
     speechRate: 5,
